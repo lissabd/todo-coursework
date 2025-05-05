@@ -17,17 +17,6 @@ export class TodoService {
   ) {} 
  
   
-  // async createTodoList(title: string, userId: number) {
-  //   const user = await this.userRepo.findOne({ where: { id: userId } });
-  
-  //   if (!user) {
-  //     throw new NotFoundException('User not found');
-  //   }
-  
-  //   const todoList = this.todoListRepo.create({ title, user });
-  //   return this.todoListRepo.save(todoList);
-  // }
-
   async createTodoList(title: string, userId: number) {
     const user = await this.userRepo.findOne({ where: { id: userId } });
     if (!user) throw new Error('User not found');
@@ -43,7 +32,6 @@ export class TodoService {
   }
   
   
-
   async getAllTodoLists() {
     return this.todoListRepo.find({ relations: ['todoItems'] });
   }
@@ -55,17 +43,16 @@ export class TodoService {
     });
   }
   
-
   async updateTodoList(id: number, title: string, status: string, todoItems: TodoItem[]) {
     const todoList = await this.todoListRepo.findOne({ 
       where: { id },  
       relations: ['todoItems'] 
     });
     if (todoList) {
-      todoList.title = title; // Обновляем название списка
+      todoList.title = title; 
       todoList.status = status;
       todoList.todoItems = todoItems;
-      return this.todoListRepo.save(todoList); // Сохраняем изменения
+      return this.todoListRepo.save(todoList);
     }
   }
   

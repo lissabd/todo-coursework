@@ -41,7 +41,7 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException('Пользователь не найден');
     }
-    const { password, ...userData } = user; // Пароль удаляем
+    const { password, ...userData } = user;
     return userData;
   }
   

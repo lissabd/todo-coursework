@@ -14,7 +14,7 @@ export class TodoItem {
   completed: boolean;
 
   @ManyToOne(() => TodoList, (todoList) => todoList.todoItems, {
-    onDelete: 'CASCADE', // Это будет удалять все задачи при удалении списка
+    onDelete: 'CASCADE', 
   })
   todoList: TodoList;
   

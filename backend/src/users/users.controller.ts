@@ -19,7 +19,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  @Roles(UserRole.ADMIN)  // Только для администраторов
+  @Roles(UserRole.ADMIN) 
   findAll() {
     return this.usersService.findAll();
   }

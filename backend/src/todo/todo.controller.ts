@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 // src/todo/todo.controller.ts
 import {
   Controller,
@@ -40,25 +39,11 @@ export class TodoController {
     return this.todoService.deleteTodoList(Number(id));
   }
 
-  // @Put(':id')
-  // update(
-  //   @Param('id') id: string,
-  //   @Body() body: { status: string; todoItems: TodoItem[] },
-  // ) {
-  //   return this.todoService.updateTodoList(
-  //     Number(id),
-  //     body.status,
-  //     body.todoItems,
-  //   );
-  // }
-
-  // src/todo/todo.controller.ts
-    @Put(':id')
-    async update(
-      @Param('id') id: number,
-      @Body() updateTodoDto: UpdateTodoDto,
-    ): Promise<TodoList> {
-      return this.todoService.update(+id, updateTodoDto);
-    }
-
+  @Put(':id')
+  async update(
+    @Param('id') id: number,
+    @Body() updateTodoDto: UpdateTodoDto,
+  ): Promise<TodoList> {
+    return this.todoService.update(+id, updateTodoDto);
+  }
 }
