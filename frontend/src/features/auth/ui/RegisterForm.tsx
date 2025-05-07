@@ -2,8 +2,8 @@ import { useState } from "react";
 import { authApi } from "../api/authApi";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../model/authSlice";
-import { useNavigate } from "react-router-dom";
-import { Button, TextField, Box, Typography } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import { Button, TextField, Box, Typography, Stack } from "@mui/material";
 
 const RegisterForm = () => {
   const [name, setName] = useState("");
@@ -95,6 +95,10 @@ const RegisterForm = () => {
       <Button type="submit" variant="contained">
         Зарегистрироваться
       </Button>
+      <Stack direction={'row'} spacing={3} justifyContent={'center'}>
+        <Typography>Уже есть аккаунт?</Typography>
+        <Link to={'/login'} style={{ textDecoration: "none" }}>Войти</Link>
+      </Stack>
     </Box>
   );
 };

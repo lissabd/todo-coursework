@@ -2,8 +2,8 @@ import { useState } from "react";
 import { authApi } from "../api/authApi";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../model/authSlice";
-import { useNavigate } from "react-router-dom";
-import { Button, TextField, Box, Typography } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import { Button, TextField, Box, Typography, Stack } from "@mui/material";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -90,6 +90,10 @@ const LoginForm = () => {
       <Button type="submit" variant="contained" fullWidth>
         Войти
       </Button>
+      <Stack direction={'row'} spacing={3} justifyContent={'center'}>
+        <Typography>Нет аккаунта?</Typography>
+        <Link to={'/register'} style={{ textDecoration: "none" }}>Зарегистрироваться</Link>
+      </Stack>
     </Box>
   );
 };
