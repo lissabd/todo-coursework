@@ -1,5 +1,10 @@
 // src/auth/auth.service.ts
-import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  ConflictException,
+  NotFoundException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
@@ -14,16 +19,15 @@ export class AuthService {
   ) {}
 
   async register(dto: RegisterDto) {
-    const existing = await this.usersService.findByEmail(dto.email);
-    if (existing) throw new ConflictException('Email уже используется');
+    const exists = await this.usersService.findByEmail(dto.email);
+    if (exists) throw new ConflictException('Email уже используется');
 
-    const hashedPassword = await bcrypt.hash(dto.password, 10);
-    const user = await this.usersService.create({
-      ...dto,
-      password: hashedPassword,
-    });
+    const hashed = await bcrypt.hash(dto.password, 10);
+    const user = await this.usersService.create({ ...dto, password: hashed });
 
-    return { message: 'Регистрация успешна' };
+    const token = this.jwtService.sign({ id: user.id, role: user.role });
+    const { password, ...userData } = user;
+    return { token, user: userData };
   }
 
   async login(dto: LoginDto) {
@@ -33,16 +37,14 @@ export class AuthService {
     }
 
     const token = this.jwtService.sign({ id: user.id, role: user.role });
-    return { token };
+    const { password, ...userData } = user;
+    return { token, user: userData };
   }
 
   async getMe(userId: number) {
     const user = await this.usersService.findById(userId);
-    if (!user) {
-      throw new UnauthorizedException('Пользователь не найден');
-    }
+    if (!user) throw new NotFoundException('Пользователь не найден');
     const { password, ...userData } = user;
     return userData;
   }
-  
 }

@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 import { loginSuccess } from "../model/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, TextField, Box, Typography, Stack } from "@mui/material";
+import { AppDispatch } from "../../../app/store";
+import { todoApi } from "../../../entities/todo/api/todoApi";
 
 const RegisterForm = () => {
   const [name, setName] = useState("");
@@ -14,7 +16,7 @@ const RegisterForm = () => {
     email: "",
     password: "",
   });
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -44,6 +46,7 @@ const RegisterForm = () => {
     try {
       const data = await authApi.register(email, password, name);
       localStorage.setItem("token", data.token);
+       dispatch(todoApi.util.resetApiState());
       dispatch(loginSuccess(data.user));
       navigate("/");
     } catch (error) {

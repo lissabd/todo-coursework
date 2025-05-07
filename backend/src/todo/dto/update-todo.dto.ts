@@ -1,5 +1,11 @@
 // src/todo/dto/update-todo.dto.ts
-import { IsString, IsArray, ValidateNested, IsBoolean, IsNumber } from 'class-validator';
+import {
+  IsString,
+  IsArray,
+  ValidateNested,
+  IsBoolean,
+  IsNumber,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 class UpdateTodoItemDto {

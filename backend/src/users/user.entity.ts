@@ -37,10 +37,9 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => TodoList, todoList => todoList.user)
-  todoLists: TodoList[]; 
+  @OneToMany(() => TodoList, (todoList) => todoList.user)
+  todoLists: TodoList[];
 
   @Column({ nullable: true })
   avatar: string;
-
 }

@@ -1,32 +1,23 @@
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import { RouterProvider } from "react-router-dom";
-import { router } from "./router";
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import { useEffect } from "react";
+
+import { router } from "./router";
+import { AppDispatch, store } from "./store";
 import { checkAuth } from "../features/auth/model/authSlice";
-import { store } from "./store";
 
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
-    background: {
-      default: '#0d1117', // фон всей страницы
-      paper: '#161b22',   // карточки, модалки и т.д.
-    },
-    text: {
-      primary: '#c9d1d9', // основной текст
-      secondary: '#8b949e',
-    },
-    primary: {
-      main: '#238636', // зелёный GitHub (например, кнопка Create)
-    },
-    error: {
-      main: '#da3633', // красный GitHub
-    },
+    background: { default: '#0d1117', paper: '#161b22' },
+    text: { primary: '#c9d1d9', secondary: '#8b949e' },
+    primary: { main: '#238636' },
+    error: { main: '#da3633' },
     divider: '#30363d',
   },
   typography: {
-    fontFamily: `"Segoe UI", "Roboto", "Helvetica", "Arial", sans-serif`,
+    fontFamily: `"Segoe UI", "Roboto", sans-serif`,
     fontSize: 14,
   },
   components: {
@@ -41,23 +32,22 @@ const darkTheme = createTheme({
   },
 });
 
-
-function App() {
+function AppInner() {
+  const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) {
-      store.dispatch(checkAuth());
-    }
-  }, []);
+    if (token) dispatch(checkAuth());
+  }, [dispatch]);
+  return <RouterProvider router={router} />;
+}
 
+export default function App() {
   return (
     <Provider store={store}>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
-        <RouterProvider router={router} />
+        <AppInner/>
       </ThemeProvider>
     </Provider>
   );
 }
-
-export default App;

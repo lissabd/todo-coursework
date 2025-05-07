@@ -9,8 +9,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './auth/roles.guard';
 import { TodoModule } from './todo/todo.module';
 import { ThrottlerModule } from '@nestjs/throttler';
-
-
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -26,13 +25,12 @@ import { ThrottlerModule } from '@nestjs/throttler';
           limit: 5,
         },
       ],
-    })
+    }),
   ],
   providers: [
-    {
-      provide: APP_GUARD,
-      useClass: RolesGuard,
-    },
-  ]
+    // cначала JWT проверит токен, затем RolesGuard
+    { provide: APP_GUARD, useClass: JwtAuthGuard },
+    { provide: APP_GUARD, useClass: RolesGuard },
+  ],
 })
 export class AppModule {}

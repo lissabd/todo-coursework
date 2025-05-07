@@ -1,35 +1,6 @@
-// import { createBrowserRouter } from "react-router-dom";
-// import LoginPage from "../pages/Login/LoginPage";
-// import RegisterPage from "../pages/Register/RegisterPage";
-// import HomePage from "../pages/Home/HomePage";
-// import ProfilePage from "../pages/Profile/ProfilePage";
-// import { PrivateRoute } from "./PrivateRoute";
-
-
-
-// export const router = createBrowserRouter([
-//   { path: "/login", element: <LoginPage /> },
-//   { path: "/register", element: <RegisterPage /> },
-//   {
-//     path: "/",
-//     element: (
-//       <PrivateRoute>
-//         <HomePage />
-//       </PrivateRoute>
-//     ),
-//   },
-//   {
-//     path: "/profile",
-//     element: (
-//       <PrivateRoute>
-//         <ProfilePage />
-//       </PrivateRoute>
-//     ),
-//   },
-// ]);
 // src/app/router.tsx
 import { createBrowserRouter } from 'react-router-dom';
-import { RedirectIfAuth, RequireAdmin, RequireAuth } from './RouteGuards';
+import { RedirectIfAuth, RequireAuth, RequireAdmin } from './RouteGuards';
 import TodoListPage from '../pages/TodoList/TodoListPage';
 import TodoDetailsPage from '../pages/TodoDetails/TodoDetailsPage';
 import ProfilePage from '../pages/Profile/ProfilePage';

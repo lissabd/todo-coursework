@@ -1,49 +1,46 @@
 // src/todo/todo.controller.ts
 import {
   Controller,
+  UseGuards,
+  Req,
   Post,
-  Body,
   Get,
   Param,
-  Delete,
   Put,
+  Delete,
+  Body,
 } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { TodoService } from './todo.service';
-import { CreateTodoDto } from './dto/create-todo.dto';
-import { TodoItem } from './todo-item.entity';
 import { UpdateTodoDto } from './dto/update-todo.dto';
-import { TodoList } from './todo-list.entity';
 
+@UseGuards(JwtAuthGuard)
 @Controller('todos')
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
   @Post()
-  create(@Body() createTodoDto: CreateTodoDto) {
-    const { title, userId } = createTodoDto;
-    return this.todoService.createTodoList(title, userId);
+  create(@Req() req, @Body('title') title: string) {
+    return this.todoService.createTodoList(title, req.user.id);
   }
 
   @Get()
-  findAll() {
-    return this.todoService.getAllTodoLists();
+  findAll(@Req() req) {
+    return this.todoService.getAllTodoLists(req.user.id);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.todoService.getTodoListById(Number(id));
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.todoService.deleteTodoList(Number(id));
+  findOne(@Req() req, @Param('id') id: number) {
+    return this.todoService.getTodoListById(id, req.user.id);
   }
 
   @Put(':id')
-  async update(
-    @Param('id') id: number,
-    @Body() updateTodoDto: UpdateTodoDto,
-  ): Promise<TodoList> {
-    return this.todoService.update(+id, updateTodoDto);
+  update(@Req() req, @Param('id') id: number, @Body() dto: UpdateTodoDto) {
+    return this.todoService.update(id, req.user.id, dto);
+  }
+
+  @Delete(':id')
+  remove(@Req() req, @Param('id') id: number) {
+    return this.todoService.deleteTodoList(id, req.user.id);
   }
 }

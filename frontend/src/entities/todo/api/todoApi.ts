@@ -3,20 +3,20 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { TodoItem, TodoList } from '../model/types';
 
 
-
 export const todoApi = createApi({
   reducerPath: 'todoApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000/' }), // или axiosBaseQuery
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'http://localhost:8000/',
+    prepareHeaders: (headers) => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers.set('authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
+  }),  
   tagTypes: ['Todo'],
   endpoints: (builder) => ({
-    // getTodos: builder.query<TodoList[], void>({
-    //   query: () => 'todos',
-    //   providesTags: ['Todo'],
-    // }),
-    // getTodo: builder.query<TodoList, number>({
-    //   query: (id) => `todos/${id}`, // Запрос на получение списка по id
-    //   providesTags: ['Todo'],
-    // }),
     getTodos: builder.query<TodoList[], void>({
       query: () => 'todos',
       providesTags: (result) =>
@@ -55,15 +55,13 @@ export const todoApi = createApi({
       }),
       invalidatesTags: ['Todo'],
     }),
-    // updateTodo: builder.mutation<void, { id: number; title: string; todoItems: TodoItem[] }>({
-    //   query: ({ id, title, todoItems }) => ({
-    //     url: `todos/${id}`,
-    //     method: 'PUT',
-    //     body: { title, todoItems },
-    //   }),
-    //   invalidatesTags: ['Todo'],
-    // }),
   }),
 });
 
-export const { useGetTodosQuery, useGetTodoQuery, useAddTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } = todoApi;
+export const {
+  useGetTodosQuery,
+  useGetTodoQuery,
+  useAddTodoMutation,
+  useUpdateTodoMutation,
+  useDeleteTodoMutation,
+} = todoApi;

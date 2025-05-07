@@ -14,8 +14,7 @@ export class TodoItem {
   completed: boolean;
 
   @ManyToOne(() => TodoList, (todoList) => todoList.todoItems, {
-    onDelete: 'CASCADE', 
+    onDelete: 'CASCADE',
   })
   todoList: TodoList;
-  
 }
