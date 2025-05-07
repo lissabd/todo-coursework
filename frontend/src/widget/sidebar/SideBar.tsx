@@ -1,6 +1,14 @@
-import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip } from "@mui/material";
-import { Home, Person } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Tooltip,
+} from '@mui/material';
+import { Home, Person } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 interface SideBarProps {
   open: boolean;
@@ -33,11 +41,12 @@ const SideBar = ({ open }: SideBarProps) => {
             <ListItem disablePadding>
               <ListItemButton onClick={() => navigate(path)}>
                 <ListItemIcon>{icon}</ListItemIcon>
-                {open && <ListItemText
-                      primary={text}
-                      primaryTypographyProps={{ noWrap: true }}
-                    />
-                }
+                {open && (
+                  <ListItemText
+                    primary={text}
+                    primaryTypographyProps={{ noWrap: true }}
+                  />
+                )}
               </ListItemButton>
             </ListItem>
           </Tooltip>

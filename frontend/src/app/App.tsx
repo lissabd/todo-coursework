@@ -1,11 +1,11 @@
-import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
-import { RouterProvider } from "react-router-dom";
-import { Provider, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import { RouterProvider } from 'react-router-dom';
+import { Provider, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 
-import { router } from "./router";
-import { AppDispatch, store } from "./store";
-import { checkAuth } from "../features/auth/model/authSlice";
+import { router } from './router';
+import { AppDispatch, store } from './store';
+import { checkAuth } from '../features/auth/model/authSlice';
 
 const darkTheme = createTheme({
   palette: {
@@ -25,7 +25,7 @@ const darkTheme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 6,
-          textTransform: "none",
+          textTransform: 'none',
         },
       },
     },
@@ -46,7 +46,7 @@ export default function App() {
     <Provider store={store}>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
-        <AppInner/>
+        <AppInner />
       </ThemeProvider>
     </Provider>
   );

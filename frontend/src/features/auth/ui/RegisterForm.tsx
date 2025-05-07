@@ -1,42 +1,42 @@
-import { useState } from "react";
-import { authApi } from "../api/authApi";
-import { useDispatch } from "react-redux";
-import { loginSuccess } from "../model/authSlice";
-import { Link, useNavigate } from "react-router-dom";
-import { Button, TextField, Box, Typography, Stack } from "@mui/material";
-import { AppDispatch } from "../../../app/store";
-import { todoApi } from "../../../entities/todo/api/todoApi";
+import { useState } from 'react';
+import { authApi } from '../api/authApi';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../model/authSlice';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button, TextField, Box, Typography, Stack } from '@mui/material';
+import { AppDispatch } from '../../../app/store';
+import { todoApi } from '../../../entities/todo/api/todoApi';
 
 const RegisterForm = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({
-    name: "",
-    email: "",
-    password: "",
+    name: '',
+    email: '',
+    password: '',
   });
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const validateForm = () => {
-    const newErrors = { name: "", email: "", password: "" };
+    const newErrors = { name: '', email: '', password: '' };
 
-    if (!name) newErrors.name = "Имя не может быть пустым";
+    if (!name) newErrors.name = 'Имя не может быть пустым';
     if (!email) {
-      newErrors.email = "Email обязателен";
+      newErrors.email = 'Email обязателен';
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = "Некорректный email";
+      newErrors.email = 'Некорректный email';
     }
     if (!password) {
-      newErrors.password = "Пароль обязателен";
+      newErrors.password = 'Пароль обязателен';
     } else if (password.length < 6) {
-      newErrors.password = "Пароль должен быть не менее 6 символов";
+      newErrors.password = 'Пароль должен быть не менее 6 символов';
     }
 
     setErrors(newErrors);
 
-    return Object.values(newErrors).every((error) => error === "");
+    return Object.values(newErrors).every(error => error === '');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -45,13 +45,13 @@ const RegisterForm = () => {
 
     try {
       const data = await authApi.register(email, password, name);
-      localStorage.setItem("token", data.token);
-       dispatch(todoApi.util.resetApiState());
+      localStorage.setItem('token', data.token);
+      dispatch(todoApi.util.resetApiState());
       dispatch(loginSuccess(data.user));
-      navigate("/");
+      navigate('/');
     } catch (error) {
       console.error(error);
-      alert("Ошибка регистрации");
+      alert('Ошибка регистрации');
     }
   };
 
@@ -70,20 +70,20 @@ const RegisterForm = () => {
       boxShadow={3}
       bgcolor="background.paper"
     >
-      <Typography variant="h4" textAlign={"center"}>
+      <Typography variant="h4" textAlign={'center'}>
         Регистрация
       </Typography>
       <TextField
         label="Имя"
         value={name}
-        onChange={(e) => setName(e.target.value)}
+        onChange={e => setName(e.target.value)}
         error={!!errors.name}
         helperText={errors.name}
       />
       <TextField
         label="Email"
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={e => setEmail(e.target.value)}
         error={!!errors.email}
         helperText={errors.email}
       />
@@ -91,7 +91,7 @@ const RegisterForm = () => {
         label="Пароль"
         type="password"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={e => setPassword(e.target.value)}
         error={!!errors.password}
         helperText={errors.password}
       />
@@ -100,7 +100,9 @@ const RegisterForm = () => {
       </Button>
       <Stack direction={'row'} spacing={3} justifyContent={'center'}>
         <Typography>Уже есть аккаунт?</Typography>
-        <Link to={'/login'} style={{ textDecoration: "none" }}>Войти</Link>
+        <Link to={'/login'} style={{ textDecoration: 'none' }}>
+          Войти
+        </Link>
       </Stack>
     </Box>
   );

@@ -1,6 +1,5 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { authApi } from "../api/authApi";
-
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { authApi } from '../api/authApi';
 
 interface User {
   [x: string]: string;
@@ -9,7 +8,6 @@ interface User {
   name: string;
   role: 'user' | 'admin';
 }
-
 
 interface AuthState {
   isAuthenticated: boolean;
@@ -21,17 +19,20 @@ const initialState: AuthState = {
   user: null,
 };
 
-export const checkAuth = createAsyncThunk('auth/checkAuth', async (_, thunkAPI) => {
-  try {
-    const user = await authApi.me();
-    return user;
-  } catch (e) {
-    return thunkAPI.rejectWithValue('Unauthorized');
-  }
-});
+export const checkAuth = createAsyncThunk(
+  'auth/checkAuth',
+  async (_, thunkAPI) => {
+    try {
+      const user = await authApi.me();
+      return user;
+    } catch (e) {
+      return thunkAPI.rejectWithValue('Unauthorized');
+    }
+  },
+);
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
     loginSuccess(state, action: PayloadAction<User>) {
@@ -41,16 +42,16 @@ const authSlice = createSlice({
     logout(state) {
       state.isAuthenticated = false;
       state.user = null;
-      localStorage.removeItem("token");
+      localStorage.removeItem('token');
     },
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
       .addCase(checkAuth.fulfilled, (state, action) => {
         state.user = action.payload;
         state.isAuthenticated = true;
       })
-      .addCase(checkAuth.rejected, (state) => {
+      .addCase(checkAuth.rejected, state => {
         state.user = null;
         state.isAuthenticated = false;
       });

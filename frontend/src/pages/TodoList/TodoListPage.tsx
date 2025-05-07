@@ -1,4 +1,7 @@
-import { useGetTodosQuery, useAddTodoMutation } from '../../entities/todo/api/todoApi';
+import {
+  useGetTodosQuery,
+  useAddTodoMutation,
+} from '../../entities/todo/api/todoApi';
 import TodoListCard from '../../entities/todo/ui/TodoListCard';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
@@ -27,9 +30,13 @@ const TodoListPage = () => {
         <TextField
           label="Новый список"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={e => setTitle(e.target.value)}
         />
-        <Button variant="contained" onClick={handleAdd} disabled={!title.trim()}>
+        <Button
+          variant="contained"
+          onClick={handleAdd}
+          disabled={!title.trim()}
+        >
           Добавить
         </Button>
       </Box>
@@ -38,7 +45,7 @@ const TodoListPage = () => {
         <Typography textAlign="center">Загрузка...</Typography>
       ) : todos && todos.length > 0 ? (
         <Box display="flex" flexWrap="wrap" gap={2}>
-          {todos.map((todo) => (
+          {todos.map(todo => (
             <Box key={todo.id} flex="1 1 300px" maxWidth="300px">
               <TodoListCard todo={todo} />
             </Box>

@@ -16,10 +16,17 @@ const TodoListCard = ({ todo }: Props) => {
       <CardContent>
         <Typography variant="h6">{todo.title}</Typography>
         <Box mt={1} display="flex" gap={2}>
-          <Button variant="contained" onClick={() => navigate(`/todos/${todo.id}`)}>
+          <Button
+            variant="contained"
+            onClick={() => navigate(`/todos/${todo.id}`)}
+          >
             Открыть
           </Button>
-          <Button variant="outlined" color="error" onClick={() => deleteTodo(todo.id)}>
+          <Button
+            variant="outlined"
+            color="error"
+            onClick={() => deleteTodo(todo.id)}
+          >
             Удалить
           </Button>
         </Box>

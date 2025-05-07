@@ -11,7 +11,9 @@ const AppLayout = () => {
   const toggleSidebar = () => setSidebarOpen(prev => !prev);
 
   const location = useLocation();
-  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isAuthenticated,
+  );
   const hideAppBarRoutes = ['/login', '/register'];
   const hideAppBar = hideAppBarRoutes.includes(location.pathname);
 
@@ -30,4 +32,3 @@ const AppLayout = () => {
 };
 
 export default AppLayout;
-

@@ -1,39 +1,39 @@
-import { useState } from "react";
-import { authApi } from "../api/authApi";
-import { useDispatch } from "react-redux";
-import { loginSuccess } from "../model/authSlice";
-import { Link, useNavigate } from "react-router-dom";
-import { Button, TextField, Box, Typography, Stack } from "@mui/material";
-import { AppDispatch } from "../../../app/store";
-import { todoApi } from "../../../entities/todo/api/todoApi";
+import { useState } from 'react';
+import { authApi } from '../api/authApi';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../model/authSlice';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button, TextField, Box, Typography, Stack } from '@mui/material';
+import { AppDispatch } from '../../../app/store';
+import { todoApi } from '../../../entities/todo/api/todoApi';
 
 const LoginForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const validateForm = () => {
-    const newErrors = { email: "", password: "" };
+    const newErrors = { email: '', password: '' };
 
     if (!email) {
-      newErrors.email = "Email обязателен";
+      newErrors.email = 'Email обязателен';
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = "Некорректный email";
+      newErrors.email = 'Некорректный email';
     }
     if (!password) {
-      newErrors.password = "Пароль обязателен";
+      newErrors.password = 'Пароль обязателен';
     } else if (password.length < 6) {
-      newErrors.password = "Пароль должен быть не менее 6 символов";
+      newErrors.password = 'Пароль должен быть не менее 6 символов';
     }
 
     setErrors(newErrors);
 
-    return Object.values(newErrors).every((error) => error === "");
+    return Object.values(newErrors).every(error => error === '');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -43,17 +43,15 @@ const LoginForm = () => {
     try {
       const data = await authApi.login(email, password);
 
-      localStorage.setItem("token", data.token);
+      localStorage.setItem('token', data.token);
 
       dispatch(todoApi.util.resetApiState());
       dispatch(loginSuccess(data.user));
 
-      navigate("/");
-      
-   
+      navigate('/');
     } catch (error) {
       console.error(error);
-      alert("Ошибка входа");
+      alert('Ошибка входа');
     }
   };
 
@@ -80,7 +78,7 @@ const LoginForm = () => {
         variant="outlined"
         fullWidth
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={e => setEmail(e.target.value)}
         error={!!errors.email}
         helperText={errors.email}
       />
@@ -90,7 +88,7 @@ const LoginForm = () => {
         variant="outlined"
         fullWidth
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={e => setPassword(e.target.value)}
         error={!!errors.password}
         helperText={errors.password}
       />
@@ -99,7 +97,9 @@ const LoginForm = () => {
       </Button>
       <Stack direction={'row'} spacing={3} justifyContent={'center'}>
         <Typography>Нет аккаунта?</Typography>
-        <Link to={'/register'} style={{ textDecoration: "none" }}>Зарегистрироваться</Link>
+        <Link to={'/register'} style={{ textDecoration: 'none' }}>
+          Зарегистрироваться
+        </Link>
       </Stack>
     </Box>
   );

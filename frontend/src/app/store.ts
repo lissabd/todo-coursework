@@ -8,8 +8,8 @@ export const store = configureStore({
     auth: authReducer,
     [todoApi.reducerPath]: todoApi.reducer,
   },
- 
-  middleware: (getDefaultMiddleware) =>
+
+  middleware: getDefaultMiddleware =>
     getDefaultMiddleware().concat(todoApi.middleware),
 });
 
