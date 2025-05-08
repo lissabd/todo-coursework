@@ -15,6 +15,8 @@ import {
 } from '@mui/icons-material';
 
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../app/store';
 
 interface SideBarProps {
   open: boolean;
@@ -22,6 +24,7 @@ interface SideBarProps {
 
 const SideBar = ({ open }: SideBarProps) => {
   const navigate = useNavigate();
+  const user = useSelector((s: RootState) => s.auth.user);
 
   const items = [
     { text: 'Мои списки', icon: <Home />, path: '/' },
@@ -29,6 +32,10 @@ const SideBar = ({ open }: SideBarProps) => {
     { text: 'Настройки', icon: <Settings />, path: '/settings' },
     { text: 'FAQ', icon: <QuestionAnswerOutlined />, path: '/questions' },
   ];
+
+  if (user?.role === 'admin') {
+    return null;
+  }
 
   return (
     <Drawer

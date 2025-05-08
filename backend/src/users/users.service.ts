@@ -1,5 +1,5 @@
 // src/users/users.service.ts
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User, UserRole } from './user.entity';
@@ -27,6 +27,14 @@ export class UsersService {
 
   async deleteUser(id: number) {
     return this.userRepo.delete(id);
+  }
+
+  async updateRole(id: number, role: UserRole) {
+    const user = await this.userRepo.findOne({ where: { id } });
+    if (!user) throw new NotFoundException('User not found');
+    user.role = role;
+    await this.userRepo.save(user);
+    return { message: 'Role updated', id, role };
   }
 
   async updateName(id: number, newName: string) {

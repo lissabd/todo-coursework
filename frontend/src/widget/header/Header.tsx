@@ -25,21 +25,23 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <IconButton
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-          onClick={toggleSidebar}
-          sx={{ mr: 2 }}
-        >
-          <MenuIcon />
-        </IconButton>
+        {user?.role !== 'admin' && (
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            onClick={toggleSidebar}
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+        )}
         <Typography
           component={Link}
           to="/"
           sx={{ flexGrow: 1, color: 'inherit', textDecoration: 'none' }}
         >
-          Todo App
+          {user?.role === 'admin' ? 'AdminPanel' : 'TodoApp'}
         </Typography>
         {user ? (
           <>

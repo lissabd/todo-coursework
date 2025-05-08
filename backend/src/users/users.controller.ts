@@ -38,6 +38,12 @@ export class UsersController {
     return this.usersService.updateName(Number(id), name);
   }
 
+  @Patch(':id/role')
+  @Roles(UserRole.ADMIN)
+  updateRole(@Param('id') id: string, @Body('role') role: UserRole) {
+    return this.usersService.updateRole(+id, role);
+  }
+
   @Patch(':id/avatar')
   @UseInterceptors(
     FileInterceptor('file', {

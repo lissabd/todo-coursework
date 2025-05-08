@@ -44,11 +44,27 @@ export const userApi = createApi({
       },
       invalidatesTags: ['User'],
     }),
-    deleteUser: builder.mutation<{ deleted: boolean }, number>({
+    getAllUsers: builder.query<User[], void>({
+      query: () => 'users',
+      providesTags: ['User'],
+    }),
+    updateRole: builder.mutation<
+      { message: string; id: number; role: string },
+      { id: number; role: string }
+    >({
+      query: ({ id, role }) => ({
+        url: `users/${id}/role`,
+        method: 'PATCH',
+        body: { role },
+      }),
+      invalidatesTags: ['User'],
+    }),
+    deleteUser: builder.mutation<{ affected: number }, number>({
       query: id => ({
         url: `users/${id}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['User'],
     }),
   }),
 });
@@ -57,5 +73,7 @@ export const {
   useMeQuery,
   useUpdateNameMutation,
   useUploadAvatarMutation,
+  useGetAllUsersQuery,
+  useUpdateRoleMutation,
   useDeleteUserMutation,
 } = userApi;
