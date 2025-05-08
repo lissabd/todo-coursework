@@ -10,8 +10,10 @@ import { RolesGuard } from './auth/roles.guard';
 import { TodoModule } from './todo/todo.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { AppController } from './app.controller';
 
 @Module({
+  controllers: [AppController],
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot(typeOrmConfig),
