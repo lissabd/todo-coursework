@@ -7,7 +7,13 @@ import {
   ListItemText,
   Tooltip,
 } from '@mui/material';
-import { Home, Person } from '@mui/icons-material';
+import {
+  Home,
+  Person,
+  Settings,
+  QuestionAnswerOutlined,
+} from '@mui/icons-material';
+
 import { useNavigate } from 'react-router-dom';
 
 interface SideBarProps {
@@ -20,6 +26,8 @@ const SideBar = ({ open }: SideBarProps) => {
   const items = [
     { text: 'Мои списки', icon: <Home />, path: '/' },
     { text: 'Профиль', icon: <Person />, path: '/profile' },
+    { text: 'Настройки', icon: <Settings />, path: '/settings' },
+    { text: 'FAQ', icon: <QuestionAnswerOutlined />, path: '/questions' },
   ];
 
   return (

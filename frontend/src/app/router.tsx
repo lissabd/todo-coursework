@@ -9,6 +9,8 @@ import LoginPage from '../pages/Login/LoginPage';
 import RegisterPage from '../pages/Register/RegisterPage';
 import AppLayout from '../widget/layout/AppLayout';
 import NotFoundPage from '../pages/NotFound/NotFoundPage';
+import SettingsPage from '../pages/Settings/SettingsPage';
+import QuestionsPage from '../pages/Questions/QuestionsPage';
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +38,22 @@ export const router = createBrowserRouter([
         element: (
           <RequireAuth>
             <ProfilePage />
+          </RequireAuth>
+        ),
+      },
+      {
+        path: 'settings',
+        element: (
+          <RequireAuth>
+            <SettingsPage />
+          </RequireAuth>
+        ),
+      },
+      {
+        path: 'questions',
+        element: (
+          <RequireAuth>
+            <QuestionsPage />
           </RequireAuth>
         ),
       },
