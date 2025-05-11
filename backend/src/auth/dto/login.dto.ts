@@ -1,10 +1,12 @@
 // src/auth/dto/login.dto.ts
-import { IsEmail, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, Length } from 'class-validator';
 
 export class LoginDto {
+  @IsNotEmpty()
   @IsEmail()
   email: string;
 
-  @MinLength(6)
+  @IsNotEmpty()
+  @Length(6, 128, { message: 'Пароль должен быть от 6 до 128 символов' })
   password: string;
 }

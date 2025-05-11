@@ -21,7 +21,6 @@ async function seed() {
 
   const userRepository = AppDataSource.getRepository(User);
   const todoListRepository = AppDataSource.getRepository(TodoList);
-  const todoItemRepository = AppDataSource.getRepository(TodoItem);
 
   // await todoItemRepository.delete({});
   // await todoListRepository.delete({});

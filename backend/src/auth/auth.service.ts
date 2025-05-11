@@ -3,6 +3,7 @@ import {
   Injectable,
   UnauthorizedException,
   ConflictException,
+  BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -10,6 +11,7 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
+import { User } from 'src/users/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -20,10 +22,23 @@ export class AuthService {
 
   async register(dto: RegisterDto) {
     const exists = await this.usersService.findByEmail(dto.email);
-    if (exists) throw new ConflictException('Email уже используется');
+    if (exists) {
+      throw new ConflictException('Email уже используется');
+    }
 
-    const hashed = await bcrypt.hash(dto.password, 10);
-    const user = await this.usersService.create({ ...dto, password: hashed });
+    let hashed: string;
+    try {
+      hashed = await bcrypt.hash(dto.password, 10);
+    } catch (err) {
+      throw new BadRequestException('Ошибка при хешировании пароля');
+    }
+
+    let user: User;
+    try {
+      user = await this.usersService.create({ ...dto, password: hashed });
+    } catch (err) {
+      throw new BadRequestException('Не удалось создать пользователя');
+    }
 
     const token = this.jwtService.sign({ id: user.id, role: user.role });
     const { password, ...userData } = user;
